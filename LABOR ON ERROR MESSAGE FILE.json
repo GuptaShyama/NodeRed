@@ -1,0 +1,226 @@
+[
+    {
+        "id": "73c9668643fa63b3",
+        "type": "subflow",
+        "name": "Subflow 1",
+        "info": "",
+        "category": "",
+        "in": [
+            {
+                "x": 140,
+                "y": 140,
+                "wires": [
+                    {
+                        "id": "03e9313b9b07f67d"
+                    }
+                ]
+            }
+        ],
+        "out": [
+            {
+                "x": 660,
+                "y": 60,
+                "wires": [
+                    {
+                        "id": "d2226ef0b6c0f121",
+                        "port": 0
+                    }
+                ]
+            },
+            {
+                "x": 540,
+                "y": 160,
+                "wires": [
+                    {
+                        "id": "d2226ef0b6c0f121",
+                        "port": 1
+                    }
+                ]
+            }
+        ],
+        "env": [],
+        "meta": {},
+        "color": "#DDAA99"
+    },
+    {
+        "id": "d2226ef0b6c0f121",
+        "type": "function",
+        "z": "73c9668643fa63b3",
+        "name": "check",
+        "func": "if (msg.payload.OrderNum == null || msg.payload.OrderNum == \"Indirect\") {\n    msg.payload = {};\n    msg.payload = \"Please select a new WO before laboring on\";\n    msg.notificationType = \"warning\";\n       msg2 = {};\n    msg2.payload = false;\n\treturn [msg, msg2];\n\t}\n else {\n    \n    msg.payload = {};\n    return msg;\n\t}\n  ",
+        "outputs": 2,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 370,
+        "y": 80,
+        "wires": [
+            [
+                "8d6546332594ed40",
+                "89c582ca3335bb9f"
+            ],
+            []
+        ]
+    },
+    {
+        "id": "8d6546332594ed40",
+        "type": "ui_toast",
+        "z": "73c9668643fa63b3",
+        "position": "top right",
+        "displayTime": "1",
+        "highlight": "",
+        "sendall": false,
+        "outputs": 0,
+        "ok": "OK",
+        "cancel": "",
+        "raw": false,
+        "className": "",
+        "topic": "",
+        "name": "",
+        "x": 610,
+        "y": 120,
+        "wires": []
+    },
+    {
+        "id": "89c582ca3335bb9f",
+        "type": "function",
+        "z": "73c9668643fa63b3",
+        "name": "Set Labor",
+        "func": "flow.set(\"Labor\",msg.payload);\nmsg.payload = {\"group\":{\"show\":[\"CH030DV_Pin\"],\"hide\":[\"CH030DV_DSI\"]}};\n\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 420,
+        "y": 180,
+        "wires": [
+            [
+                "0faa12c4b1cdc0dc"
+            ]
+        ]
+    },
+    {
+        "id": "0faa12c4b1cdc0dc",
+        "type": "ui_ui_control",
+        "z": "73c9668643fa63b3",
+        "name": "",
+        "events": "change",
+        "x": 620,
+        "y": 220,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "03e9313b9b07f67d",
+        "type": "switch",
+        "z": "73c9668643fa63b3",
+        "name": "",
+        "property": "payload",
+        "propertyType": "msg",
+        "rules": [
+            {
+                "t": "true"
+            },
+            {
+                "t": "false"
+            }
+        ],
+        "checkall": "true",
+        "repair": false,
+        "outputs": 2,
+        "x": 250,
+        "y": 140,
+        "wires": [
+            [
+                "d2226ef0b6c0f121"
+            ],
+            []
+        ]
+    },
+    {
+        "id": "b387c5434b3981d9",
+        "type": "ui_switch",
+        "z": "f0ccdfca34d54e51",
+        "name": "",
+        "label": "<size=5%>Labor ",
+        "tooltip": "",
+        "group": "48cb4b84dce41849",
+        "order": 1,
+        "width": "4",
+        "height": 1,
+        "passthru": true,
+        "decouple": "false",
+        "topic": "topic",
+        "topicType": "msg",
+        "style": "",
+        "onvalue": "true",
+        "onvalueType": "bool",
+        "onicon": "fa-2x fa-toggle-on ",
+        "oncolor": "green",
+        "offvalue": "false",
+        "offvalueType": "bool",
+        "officon": "fa-2x fa-toggle-off",
+        "offcolor": "grey",
+        "animate": true,
+        "className": "",
+        "x": 170,
+        "y": 760,
+        "wires": [
+            [
+                "ecfebd55ee4be508"
+            ]
+        ]
+    },
+    {
+        "id": "ecfebd55ee4be508",
+        "type": "subflow:73c9668643fa63b3",
+        "z": "f0ccdfca34d54e51",
+        "name": "Labor message",
+        "x": 180,
+        "y": 840,
+        "wires": [
+            [
+                "3b977a7ea4b37de5"
+            ],
+            [
+                "b387c5434b3981d9"
+            ]
+        ]
+    },
+    {
+        "id": "3b977a7ea4b37de5",
+        "type": "link out",
+        "z": "f0ccdfca34d54e51",
+        "name": "link out 9",
+        "mode": "link",
+        "links": [
+            "f4e20afdebd56ef7"
+        ],
+        "x": 335,
+        "y": 800,
+        "wires": []
+    },
+    {
+        "id": "48cb4b84dce41849",
+        "type": "ui_group",
+        "name": "DSI",
+        "tab": "c4a1fbb628bdd4e6",
+        "order": 3,
+        "disp": false,
+        "width": "4",
+        "collapse": false,
+        "className": ""
+    },
+    {
+        "id": "c4a1fbb628bdd4e6",
+        "type": "ui_tab",
+        "name": "CH030DV",
+        "icon": "dashboard",
+        "order": 2,
+        "disabled": false,
+        "hidden": false
+    }
+]
